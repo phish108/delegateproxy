@@ -36,7 +36,7 @@ export function DelegateProxy(operator, delegate) {
     // This allows us to have one instance of an operator running in different
     // contexts.
     //
-    // if we get a function as delegate we want to instantiate it as an object.
+    // if we get a function as delegate we want to instanciate it as an object.
     if (typeof operator === "function") {
         operator = new operator();
     }

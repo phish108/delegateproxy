@@ -25,7 +25,7 @@
  */
 
 /**
- * app to pass operation handling to different objects, while
+ * class to pass operation handling to different objects, while
  * encapsulating the operational class(es).
  */
 function DelegateProxy(operator, delegate) {
@@ -35,7 +35,7 @@ function DelegateProxy(operator, delegate) {
     // contexts.
     //
 
-    // if we get a function as delegate we want to instantiate it as an object.
+    // if we get a function as delegate we want to instanciate it as an object.
     if (typeof operator === "function") {
         operator = new operator();
     }

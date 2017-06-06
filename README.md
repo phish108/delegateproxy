@@ -45,7 +45,7 @@ console.log(dp.a()); // "hello from A"
 console.log(dp.b()); // "hello from B"
 ```
 
-DelegateProxy will instantiate both classes and then tie them together.
+DelegateProxy will instanciate both classes and then tie them together.
 
 Within a delegate proxy, the operator object is write only. Data can be stored
 only in the delegate object.
@@ -197,6 +197,10 @@ console.log(base.changed); // undefined
 console.log(dp1.changed);  // "Hello World"
 console.log(dp2.changed);  // "Hello Mars"
 ```
+
+In this case it is possible to change the base object and immediately pass this
+change to all delegated objects. However, the base object is not aware of its
+delegates, so it cannot be used to message between delegates. 
 
 ## AUTHOR
 
