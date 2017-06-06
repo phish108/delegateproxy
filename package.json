@@ -1,0 +1,25 @@
+{
+  "name": "delegateproxy",
+  "version": "1.0.0",
+  "description": "ES6 Proxy Class for Functional Delegation",
+  "main": "nodejs/DelegateProxy.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "proxy",
+    "es6"
+  ],
+  "author": "Christian Glahn <cpglahn@gmail.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=6"
+  },
+  "devDependencies": {
+      "eslint": "^3.0.0",
+      "chai": "^3.5.0",
+      "co-mocha": "^1.1.2",
+      "mocha": "^3.0.0"
+  },
+  "repository": "phish108/delegateproxy"
+}

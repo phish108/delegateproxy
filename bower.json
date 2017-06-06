@@ -1,0 +1,21 @@
+{
+  "name": "phish108-delegateproxy",
+  "description": "ES6 Proxy Class for Functional Delegation",
+  "main": "amd/DelegateProxy.js",
+  "authors": [
+    "Christian Glahn <cpglahn@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "proxy",
+    "es6"
+  ],
+  "homepage": "http://github.com/phish108/delegateproxy",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
