@@ -28,7 +28,7 @@
  * class to pass operation handling to different objects, while
  * encapsulating the operational class(es).
  */
-function DelegateProxy(operator, delegate) {
+export function DelegateProxy(operator, delegate) {
     // the operator MUST be an instance.
     // if it is a function we just leave it.
     // This allows us to have one instance of an operator running in different
