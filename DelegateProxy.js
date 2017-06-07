@@ -82,12 +82,12 @@ export function DelegateProxy(operator, delegate) {
                 if (!proxy[p]) {
                     // avoid creating dummy functions, repeatetively.
                     proxy[p] = function (...args) {
-                        let result = delegate[p].apply(this, args);
+                        let result = operator[p].apply(this, args);
                             // handle the result ONLY, if the delegate did not return
                             // anything useful.
 
                         if (!result || !result.length) {
-                            result = operator[p].apply(this, args);
+                            result = delegate[p].apply(this, args);
                         }
                         return result;
                     };
