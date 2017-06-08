@@ -28,9 +28,10 @@ define("DelegateProxy", [], function() {
                     if (!proxy[p]) {
                         proxy[p] = function(...args) {
                             let result = operator[p].apply(this, args);
-                            if (!result || !result.length) {
-                                result = delegate[p].apply(this, args);
+                            if (result !== undefined) {
+                                args = Array.isArray(result) ? result : [ result ];
                             }
+                            result = delegate[p].apply(this, args);
                             return result;
                         };
                     }

@@ -201,4 +201,44 @@ describe("DelegateProxy", function() {
         expect(data.data).to.be.equal("hello world");
         expect(d1.hello).to.be.equal("foo");
     });
+
+    it("pipelinging cascade", function () {
+        class A {
+            a() {
+                return "Hello ";
+            }
+        }
+
+        class B {
+            a(foo) {
+                return foo + "World";
+            }
+        }
+
+        const proxy = DelegateProxy(A, B);
+        const result = proxy.a();
+
+        expect(result).to.be.equal("Hello World");
+    });
+
+    it("avoid pipelinging cascade on undef", function () {
+        class A {
+            a(foo) {
+                this.alpha = foo;
+            }
+        }
+
+        class B {
+            a(foo) {
+                this.beta = foo;
+            }
+        }
+
+        const result = DelegateProxy(A, B);
+
+        result.a("hello");
+
+        expect(result.alpha).to.be.equal("hello");
+        expect(result.beta).to.be.equal(result.alpha);
+    });
 });
