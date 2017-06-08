@@ -198,9 +198,44 @@ console.log(dp1.changed);  // "Hello World"
 console.log(dp2.changed);  // "Hello Mars"
 ```
 
-In this case it is possible to change the base object and immediately pass this
+In this case, it is possible to change the base object and immediately pass this
 change to all delegated objects. However, the base object is not aware of its
-delegates, so it cannot be used to message between delegates. 
+delegates, so it cannot be used to message between delegates.
+
+If an operator function returns a value, the delegate receives that value as an
+argument. This allows pipelining through the delegation pipeline.
+
+```javascript
+class A {
+    a(param) {
+        return `${param.replace("Good", "Bye")} `;
+    }
+}
+
+class B {
+    a(param) {
+        return `${param}Earth`;
+    }
+}
+
+class C {
+    a(param) {
+        return `${param} and Moon`;
+    }
+}
+
+const base = new A();
+const dp1 = DelegateProxy(base, B).delegate(C);
+
+console.log(dp1.a("Good Bye")); // "Bye Bye Earth and Moon"
+```
+
+## Browser Support
+
+DelegateProxy has been tested with Firefox, Safari, and Chrome.
+
+Proxy support is required. Older Browsers may work with the
+[Proxy Object polyfill](https://github.com/GoogleChrome/proxy-polyfill)
 
 ## AUTHOR
 
