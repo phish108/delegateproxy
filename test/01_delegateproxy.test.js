@@ -145,7 +145,8 @@ describe("DelegateProxy", function() {
 
         const result = DelegateProxy(A, B).delegate(C);
 
-        expect(result.data).to.be.undefined;
+        expect(result.data).to.be.a("function");
+        expect(result.data ==  "").to.be.true; //eslint-disable-line eqeqeq
     });
 
     it("singleton delegation base", function() {
@@ -240,5 +241,45 @@ describe("DelegateProxy", function() {
 
         expect(result.alpha).to.be.equal("hello");
         expect(result.beta).to.be.equal(result.alpha);
+    });
+
+    it("janus function on undefined properties", function() {
+        class A {
+            a(foo) {
+                this.alpha = foo;
+            }
+        }
+
+        class B {
+            a(foo) {
+                this.beta = foo;
+            }
+        }
+
+        const result = DelegateProxy(A, B);
+        const dummy = result.b;
+
+        expect(dummy).to.be.a("function");
+        expect(dummy == "").to.be.true; //eslint-disable-line eqeqeq
+    });
+
+    it("janus function on undefined methods", function() {
+        class A {
+            a(foo) {
+                this.alpha = foo;
+            }
+        }
+
+        class B {
+            a(foo) {
+                this.beta = foo;
+            }
+        }
+
+        const result = DelegateProxy(A, B);
+        const dummy = result.b();
+
+        expect(dummy).to.be.a("string");
+        expect(dummy).to.be.empty;
     });
 });

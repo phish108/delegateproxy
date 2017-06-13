@@ -25,6 +25,27 @@
  */
 
 /**
+ * Janus is a small helper factory for creating Janus functions. These functions
+ * behave as literals if they are called in literal context or as functions if
+ * called in function context.
+ *
+ * The Janus functions are used for the cases where neither the delegate nor
+ * the operator have a requested property. This allows you to call functions
+ * or properties that neither class implements.
+ */
+function Janus(defaultValue) {
+    const retval = function () {
+        return defaultValue;
+    };
+
+    retval.toString = function () {
+        return defaultValue;
+    };
+
+    return retval;
+}
+
+/**
  * class to pass operation handling to different objects, while
  * encapsulating the operational class(es).
  */
@@ -34,6 +55,7 @@ export function DelegateProxy(operator, delegate) {
     // This allows us to have one instance of an operator running in different
     // contexts.
     //
+    const fallbackFunc = Janus("");
 
     // if we get a function as delegate we want to instanciate it as an object.
     if (typeof operator === "function") {
@@ -53,7 +75,7 @@ export function DelegateProxy(operator, delegate) {
         },
 
         set: function(o,p,v) {
-            if (!o[p]) {
+            if (!(p in o)) {
                 // all operator properties and functions are read only for the
                 // proxy
                 delegate[p] = v;
@@ -79,7 +101,7 @@ export function DelegateProxy(operator, delegate) {
 
             if (typeof operator[p] === "function" &&
                 typeof delegate[p] === "function") {
-                if (!proxy[p]) {
+                if (!(p in proxy)) {
                     // avoid creating dummy functions, repeatetively.
                     proxy[p] = function (...args) {
                         let result = operator[p].apply(this, args);
@@ -96,11 +118,19 @@ export function DelegateProxy(operator, delegate) {
                 return proxy[p];
             }
 
-            if (operator[p]) {
+            if (p in operator) {
                 return operator[p];
             }
 
-            return delegate[p];
+            if (p in delegate) {
+                return delegate[p];
+            }
+
+            if (!(p in proxy)) {
+                proxy[p] = fallbackFunc;
+            }
+
+            return proxy[p];
         }
     });
 }

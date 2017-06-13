@@ -1,5 +1,15 @@
 define("DelegateProxy", [], function() {
+    function Janus(defaultValue) {
+        const retval = function() {
+            return defaultValue;
+        };
+        retval.toString = function() {
+            return defaultValue;
+        };
+        return retval;
+    }
     return function DelegateProxy(operator, delegate) {
+        const fallbackFunc = Janus("");
         if (typeof operator === "function") {
             operator = new operator();
         }
@@ -12,7 +22,7 @@ define("DelegateProxy", [], function() {
                 return p;
             },
             set: function(o, p, v) {
-                if (!o[p]) {
+                if (!(p in o)) {
                     delegate[p] = v;
                     return true;
                 }
@@ -25,7 +35,7 @@ define("DelegateProxy", [], function() {
                     };
                 }
                 if (typeof operator[p] === "function" && typeof delegate[p] === "function") {
-                    if (!proxy[p]) {
+                    if (!(p in proxy)) {
                         proxy[p] = function(...args) {
                             let result = operator[p].apply(this, args);
                             if (result !== undefined) {
@@ -37,10 +47,16 @@ define("DelegateProxy", [], function() {
                     }
                     return proxy[p];
                 }
-                if (operator[p]) {
+                if (p in operator) {
                     return operator[p];
                 }
-                return delegate[p];
+                if (p in delegate) {
+                    return delegate[p];
+                }
+                if (!(p in proxy)) {
+                    proxy[p] = fallbackFunc;
+                }
+                return proxy[p];
             }
         });
     };
