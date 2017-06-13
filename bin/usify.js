@@ -9,9 +9,9 @@ const code = fs.readFileSync("DelegateProxy.js", "utf8");
 
 // get the module name
 const modName = code.match(/export function ([^\(]+)\(/)[1];
-const amdPrefix = `define("${modName}", [], function () { return `;
+const amdPrefix = `define("${modName}", [], function () { `;
 
-const amdCode = code.replace(/export /, amdPrefix) + "});";
+const amdCode = amdPrefix + code.replace(/export /, "return ") + "});";
 const nodejsCode = code.replace(/export /, "module.exports = ");
 
 const amdMini = uglify.minify(amdCode, {
