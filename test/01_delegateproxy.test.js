@@ -126,7 +126,7 @@ describe("DelegateProxy", function() {
 
     it("delegation cascade reserved", function() {
         class A {
-            delegate(cls) {
+            delegate(cls) { // eslint-disable-line no-unused-vars
                 this.data = "not called";
             }
         }
